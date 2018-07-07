@@ -28,13 +28,16 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-       $post    = new Post;
-       $post->title        =   $post->title;
-       $post->content     =   $post->content;
-       Auth::user()->post()->save($post);
+       $post                = new Post;
+       $post->title         =   $request->title;
+       $post->content       =   $request->content;
+       $post->user_id       =   $request->user_id;
 
-       return new ArticleResource($post);
-        
+       //Auth::user()->posts()->save($post);
+       if($post->save())
+        {
+            return new PostResource($post);
+        }
     }
 
     /**
@@ -59,7 +62,14 @@ class PostController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+       $post                = Post::findOrFail($id);
+       $post->title         =   $request->title;
+       $post->content       =   $request->content;
+       $post->user_id       =   $request->user_id;
+       if($post->save())
+        {
+            return new PostResource($post);
+        }
     }
 
     /**
@@ -71,7 +81,8 @@ class PostController extends Controller
     public function destroy($id)
     {
         $post   = Post::findOrFail($id);
-
-        return new PostResource($post);
+        if ($post->delete()) {
+            return new PostResource($post);
+        }
     }
 }
