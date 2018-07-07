@@ -19,7 +19,10 @@
           </form>
         </div>  
         <div class="col-8">
-            <div class="card-body">
+          <div  v-if="posts.length == 0" class="alert alert-primary mt-3" role="alert">
+            No Posts Yet !
+          </div>
+            <div class="card-body" v-else>
                 <ul class="list-group">
                     <li class="list-group-item mb-2" v-for="post in posts" v-bind:key="post.id">
                         <h3> {{post.title}} </h3>
@@ -58,7 +61,7 @@
               create() {
                 window.axios.post('api/post', this.post) 
           .then(() => {
-            console.log("added");
+            console.log("created");
              this.emptyAction();
           //  this.posts.push(this.post);
            this.read();
@@ -70,7 +73,7 @@
               read() {
                 window.axios.get('api/posts')
                 .then(({ data }) => {
-                    console.log(data.data);
+                   // console.log(data.data);
                     this.posts = data.data;
                 });
               },
@@ -107,12 +110,7 @@
 
               },
               del(id) {
-                var datass        = {
-                  '__method': "delete",
-                  '_token': window.Laravel.csrfToken
-                }; 
-
-
+          
                 window.axios.delete(`api/post/del/${id}`).then(() => {
                   let index = this.posts.findIndex(post => post.id === id);
                   this.posts.splice(index, 1);

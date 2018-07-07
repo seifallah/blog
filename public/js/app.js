@@ -47348,6 +47348,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -47373,7 +47376,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       var _this = this;
 
       window.axios.post('api/post', this.post).then(function () {
-        console.log("added");
+        console.log("created");
         _this.emptyAction();
         //  this.posts.push(this.post);
         _this.read();
@@ -47385,7 +47388,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       window.axios.get('api/posts').then(function (_ref) {
         var data = _ref.data;
 
-        console.log(data.data);
+        // console.log(data.data);
         _this2.posts = data.data;
       });
     },
@@ -47419,11 +47422,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     del: function del(id) {
       var _this4 = this;
-
-      var datass = {
-        '__method': "delete",
-        '_token': window.Laravel.csrfToken
-      };
 
       window.axios.delete('api/post/del/' + id).then(function () {
         var index = _this4.posts.findIndex(function (post) {
@@ -47525,51 +47523,60 @@ var render = function() {
     ]),
     _vm._v(" "),
     _c("div", { staticClass: "col-8" }, [
-      _c("div", { staticClass: "card-body" }, [
-        _c(
-          "ul",
-          { staticClass: "list-group" },
-          _vm._l(_vm.posts, function(post) {
-            return _c(
-              "li",
-              { key: post.id, staticClass: "list-group-item mb-2" },
-              [
-                _c("h3", [_vm._v(" " + _vm._s(post.title) + " ")]),
-                _vm._v(" "),
-                _c("p", [_vm._v(_vm._s(post.content))]),
-                _vm._v(" "),
-                _c("div", [
-                  _c(
-                    "button",
-                    {
-                      staticClass: "btn btn-success float-left",
-                      on: {
-                        click: function($event) {
-                          _vm.edit(post)
-                        }
-                      }
-                    },
-                    [_vm._v("edit")]
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "button",
-                    {
-                      staticClass: "btn btn-danger float-right",
-                      on: {
-                        click: function($event) {
-                          _vm.del(post.id)
-                        }
-                      }
-                    },
-                    [_vm._v("delete")]
-                  )
-                ])
-              ]
+      _vm.posts.length == 0
+        ? _c(
+            "div",
+            {
+              staticClass: "alert alert-primary mt-3",
+              attrs: { role: "alert" }
+            },
+            [_vm._v("\n        No Posts Yet !\n      ")]
+          )
+        : _c("div", { staticClass: "card-body" }, [
+            _c(
+              "ul",
+              { staticClass: "list-group" },
+              _vm._l(_vm.posts, function(post) {
+                return _c(
+                  "li",
+                  { key: post.id, staticClass: "list-group-item mb-2" },
+                  [
+                    _c("h3", [_vm._v(" " + _vm._s(post.title) + " ")]),
+                    _vm._v(" "),
+                    _c("p", [_vm._v(_vm._s(post.content))]),
+                    _vm._v(" "),
+                    _c("div", [
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-success float-left",
+                          on: {
+                            click: function($event) {
+                              _vm.edit(post)
+                            }
+                          }
+                        },
+                        [_vm._v("edit")]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-danger float-right",
+                          on: {
+                            click: function($event) {
+                              _vm.del(post.id)
+                            }
+                          }
+                        },
+                        [_vm._v("delete")]
+                      )
+                    ])
+                  ]
+                )
+              })
             )
-          })
-        )
-      ])
+          ])
     ])
   ])
 }
