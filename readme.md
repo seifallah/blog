@@ -1,6 +1,8 @@
 Laravel 5.6
 Require PHP > 7.0
 
+Isntallation
+
 1.edit .env to set the database credentials
 2. php artisan migrate
 3. php artisan db:seed
