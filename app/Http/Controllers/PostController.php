@@ -31,8 +31,8 @@ class PostController extends Controller
        $post                = new Post;
        $post->title         =   $request->title;
        $post->content       =   $request->content;
-       $post->user_id       =   $request->user_id;
-
+       $post->user_id       =   2;
+       //dd($post);
        //Auth::user()->posts()->save($post);
        if($post->save())
         {
