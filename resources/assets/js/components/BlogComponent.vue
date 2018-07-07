@@ -1,36 +1,38 @@
 <template>
-    <div class="blog">
-<form class="" @submit.prevent="saveMethod()">
-  <div class="form-group">
-    <label for="title">Title</label>
-    <input type="text" class="form-control" id="title"  placeholder="text goes here" v-model="post.title">
-  </div>
-
-  <div class="form-group">
-    <label for="post-content">Content</label>
-    <textarea class="form-control" id="post-content" rows="3" v-model="post.content"></textarea>
-  </div>
-  <div class="form-group">
-    <button type="submit" class="btn btn-info">Save</button>
-  </div>
-</form>
-
-        <hr>
-        <div class="card-header">Blog Component</div>
+    <div class=" row blog">
+        <div class="col-12">
+          <h2 class="bg-info p-2 text-center">Welcome to Our Blog Demo</h2>
+        </div>
+        <div class="col-4">
+          <form class="col-3" @submit.prevent="saveMethod()" style="position:fixed;">
+            <div class="form-group">
+              <label for="title">Title</label>
+              <input type="text" class="form-control" id="title"  placeholder="" v-model="post.title">
+            </div>
+            <div class="form-group">
+              <label for="post-content">Content</label>
+              <textarea class="form-control" rows="10" v-model="post.content"></textarea>
+            </div>
+            <div class="form-group text-right">
+              <button type="submit" class="btn btn-info">Save</button>
+            </div>
+          </form>
+        </div>  
+        <div class="col-8">
             <div class="card-body">
                 <ul class="list-group">
-                    <li class="list-group-item" v-for="post in posts" v-bind:key="post.id">
+                    <li class="list-group-item mb-2" v-for="post in posts" v-bind:key="post.id">
                         <h3> {{post.title}} </h3>
                         <p>{{post.content}}</p>
                         <div>
-                            <span class="float-left" @click="edit(post)">edit</span>
-                            <span class="float-right" @click="del(post.id)">delete</span>
+                            <button class="btn btn-success float-left" @click="edit(post)">edit</button>
+                            <button class="btn btn-danger float-right" @click="del(post.id)">delete</button>
                         </div>
                     </li>
                 </ul>
             </div>
-        </div>
-    </div>
+          </div>
+      </div>
 </template>
 
 <script>
@@ -57,8 +59,7 @@
                 window.axios.post('api/post', this.post) 
           .then(() => {
             console.log("added");
-              this.post.title="";
-              this.post.content="";
+             this.emptyAction();
           //  this.posts.push(this.post);
            this.read();
 
@@ -83,8 +84,7 @@
                 }
               },
               edit(post) {
-                this.post.title = "";
-                this.post.content = "";
+                this.emptyAction();
 
                 this.editAction = true;
                 this.post.title = post.title;
@@ -101,6 +101,7 @@
                 ).then(() => {
                   console.log("updated");
                   this.read();
+                  this.emptyAction();
                   this.editAction = false;
                 });
 
@@ -117,6 +118,11 @@
                   this.posts.splice(index, 1);
                   console.log("remvoed");
                 });
+              },
+
+              emptyAction() {
+                this.post.title = "";
+                this.post.content = "";
               },
         }
     }

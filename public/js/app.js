@@ -47346,6 +47346,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -47372,8 +47374,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
       window.axios.post('api/post', this.post).then(function () {
         console.log("added");
-        _this.post.title = "";
-        _this.post.content = "";
+        _this.emptyAction();
         //  this.posts.push(this.post);
         _this.read();
       });
@@ -47396,8 +47397,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       }
     },
     edit: function edit(post) {
-      this.post.title = "";
-      this.post.content = "";
+      this.emptyAction();
 
       this.editAction = true;
       this.post.title = post.title;
@@ -47413,6 +47413,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       window.axios.put('api/post/' + this.post_id, this.post).then(function () {
         console.log("updated");
         _this3.read();
+        _this3.emptyAction();
         _this3.editAction = false;
       });
     },
@@ -47431,6 +47432,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         _this4.posts.splice(index, 1);
         console.log("remvoed");
       });
+    },
+    emptyAction: function emptyAction() {
+      this.post.title = "";
+      this.post.content = "";
     }
   }
 });
@@ -47443,118 +47448,128 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "blog" }, [
-    _c(
-      "form",
-      {
-        on: {
-          submit: function($event) {
-            $event.preventDefault()
-            _vm.saveMethod()
-          }
-        }
-      },
-      [
-        _c("div", { staticClass: "form-group" }, [
-          _c("label", { attrs: { for: "title" } }, [_vm._v("Title")]),
-          _vm._v(" "),
-          _c("input", {
-            directives: [
-              {
-                name: "model",
-                rawName: "v-model",
-                value: _vm.post.title,
-                expression: "post.title"
-              }
-            ],
-            staticClass: "form-control",
-            attrs: { type: "text", id: "title", placeholder: "text goes here" },
-            domProps: { value: _vm.post.title },
-            on: {
-              input: function($event) {
-                if ($event.target.composing) {
-                  return
-                }
-                _vm.$set(_vm.post, "title", $event.target.value)
-              }
-            }
-          })
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "form-group" }, [
-          _c("label", { attrs: { for: "post-content" } }, [_vm._v("Content")]),
-          _vm._v(" "),
-          _c("textarea", {
-            directives: [
-              {
-                name: "model",
-                rawName: "v-model",
-                value: _vm.post.content,
-                expression: "post.content"
-              }
-            ],
-            staticClass: "form-control",
-            attrs: { id: "post-content", rows: "3" },
-            domProps: { value: _vm.post.content },
-            on: {
-              input: function($event) {
-                if ($event.target.composing) {
-                  return
-                }
-                _vm.$set(_vm.post, "content", $event.target.value)
-              }
-            }
-          })
-        ]),
-        _vm._v(" "),
-        _vm._m(0)
-      ]
-    ),
+  return _c("div", { staticClass: " row blog" }, [
+    _vm._m(0),
     _vm._v(" "),
-    _c("hr"),
-    _vm._v(" "),
-    _c("div", { staticClass: "card-header" }, [_vm._v("Blog Component")]),
-    _vm._v(" "),
-    _c("div", { staticClass: "card-body" }, [
+    _c("div", { staticClass: "col-4" }, [
       _c(
-        "ul",
-        { staticClass: "list-group" },
-        _vm._l(_vm.posts, function(post) {
-          return _c("li", { key: post.id, staticClass: "list-group-item" }, [
-            _c("h3", [_vm._v(" " + _vm._s(post.title) + " ")]),
+        "form",
+        {
+          staticClass: "col-3",
+          staticStyle: { position: "fixed" },
+          on: {
+            submit: function($event) {
+              $event.preventDefault()
+              _vm.saveMethod()
+            }
+          }
+        },
+        [
+          _c("div", { staticClass: "form-group" }, [
+            _c("label", { attrs: { for: "title" } }, [_vm._v("Title")]),
             _vm._v(" "),
-            _c("p", [_vm._v(_vm._s(post.content))]),
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.post.title,
+                  expression: "post.title"
+                }
+              ],
+              staticClass: "form-control",
+              attrs: { type: "text", id: "title", placeholder: "" },
+              domProps: { value: _vm.post.title },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.$set(_vm.post, "title", $event.target.value)
+                }
+              }
+            })
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "form-group" }, [
+            _c("label", { attrs: { for: "post-content" } }, [
+              _vm._v("Content")
+            ]),
             _vm._v(" "),
-            _c("div", [
-              _c(
-                "span",
+            _c("textarea", {
+              directives: [
                 {
-                  staticClass: "float-left",
-                  on: {
-                    click: function($event) {
-                      _vm.edit(post)
-                    }
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.post.content,
+                  expression: "post.content"
+                }
+              ],
+              staticClass: "form-control",
+              attrs: { rows: "10" },
+              domProps: { value: _vm.post.content },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
                   }
-                },
-                [_vm._v("edit")]
-              ),
-              _vm._v(" "),
-              _c(
-                "span",
-                {
-                  staticClass: "float-right",
-                  on: {
-                    click: function($event) {
-                      _vm.del(post.id)
-                    }
-                  }
-                },
-                [_vm._v("delete")]
-              )
-            ])
-          ])
-        })
+                  _vm.$set(_vm.post, "content", $event.target.value)
+                }
+              }
+            })
+          ]),
+          _vm._v(" "),
+          _vm._m(1)
+        ]
       )
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "col-8" }, [
+      _c("div", { staticClass: "card-body" }, [
+        _c(
+          "ul",
+          { staticClass: "list-group" },
+          _vm._l(_vm.posts, function(post) {
+            return _c(
+              "li",
+              { key: post.id, staticClass: "list-group-item mb-2" },
+              [
+                _c("h3", [_vm._v(" " + _vm._s(post.title) + " ")]),
+                _vm._v(" "),
+                _c("p", [_vm._v(_vm._s(post.content))]),
+                _vm._v(" "),
+                _c("div", [
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-success float-left",
+                      on: {
+                        click: function($event) {
+                          _vm.edit(post)
+                        }
+                      }
+                    },
+                    [_vm._v("edit")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-danger float-right",
+                      on: {
+                        click: function($event) {
+                          _vm.del(post.id)
+                        }
+                      }
+                    },
+                    [_vm._v("delete")]
+                  )
+                ])
+              ]
+            )
+          })
+        )
+      ])
     ])
   ])
 }
@@ -47563,7 +47578,17 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "form-group" }, [
+    return _c("div", { staticClass: "col-12" }, [
+      _c("h2", { staticClass: "bg-info p-2 text-center" }, [
+        _vm._v("Welcome to Our Blog Demo")
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "form-group text-right" }, [
       _c("button", { staticClass: "btn btn-info", attrs: { type: "submit" } }, [
         _vm._v("Save")
       ])
