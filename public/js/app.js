@@ -47360,7 +47360,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         id: '',
         title: '',
         content: ''
-      }
+      },
+      editAction: false,
+      post_id: ""
     };
   },
 
@@ -47370,9 +47372,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
       window.axios.post('api/post', this.post).then(function () {
         console.log("added");
-
+        _this.post.title = "";
+        _this.post.content = "";
         //  this.posts.push(this.post);
-
         _this.read();
       });
     },
@@ -47386,14 +47388,36 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         _this2.posts = data.data;
       });
     },
-    update: function update(id) {
-      window.axios.put('api/post/' + id, {}).then(function () {
-        // Once AJAX resolves we can update the Crud with the new color
-        //this.posts.find(post => post.id === id).color = color;
+    saveMethod: function saveMethod() {
+      if (this.editAction === false) {
+        this.create();
+      } else {
+        this.update();
+      }
+    },
+    edit: function edit(post) {
+      this.post.title = "";
+      this.post.content = "";
+
+      this.editAction = true;
+      this.post.title = post.title;
+      this.post.content = post.content;
+      console.log("id post" + post.id);
+      this.post_id = post.id;
+    },
+    update: function update() {
+      var _this3 = this;
+
+      console.log("updated", this.post_id);
+
+      window.axios.put('api/post/' + this.post_id, this.post).then(function () {
+        console.log("updated");
+        _this3.read();
+        _this3.editAction = false;
       });
     },
     del: function del(id) {
-      var _this3 = this;
+      var _this4 = this;
 
       var datass = {
         '__method': "delete",
@@ -47401,10 +47425,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       };
 
       window.axios.delete('api/post/del/' + id).then(function () {
-        var index = _this3.posts.findIndex(function (post) {
+        var index = _this4.posts.findIndex(function (post) {
           return post.id === id;
         });
-        _this3.posts.splice(index, 1);
+        _this4.posts.splice(index, 1);
         console.log("remvoed");
       });
     }
@@ -47426,7 +47450,7 @@ var render = function() {
         on: {
           submit: function($event) {
             $event.preventDefault()
-            return _vm.create($event)
+            _vm.saveMethod()
           }
         }
       },
@@ -47502,7 +47526,18 @@ var render = function() {
             _c("p", [_vm._v(_vm._s(post.content))]),
             _vm._v(" "),
             _c("div", [
-              _c("span", { staticClass: "float-left" }, [_vm._v("edit")]),
+              _c(
+                "span",
+                {
+                  staticClass: "float-left",
+                  on: {
+                    click: function($event) {
+                      _vm.edit(post)
+                    }
+                  }
+                },
+                [_vm._v("edit")]
+              ),
               _vm._v(" "),
               _c(
                 "span",
@@ -47530,7 +47565,7 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "form-group" }, [
       _c("button", { staticClass: "btn btn-info", attrs: { type: "submit" } }, [
-        _vm._v("Add")
+        _vm._v("Save")
       ])
     ])
   }

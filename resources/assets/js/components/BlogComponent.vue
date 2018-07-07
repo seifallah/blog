@@ -1,6 +1,6 @@
 <template>
     <div class="blog">
-<form class="" @submit.prevent="create">
+<form class="" @submit.prevent="saveMethod()">
   <div class="form-group">
     <label for="title">Title</label>
     <input type="text" class="form-control" id="title"  placeholder="text goes here" v-model="post.title">
@@ -11,7 +11,7 @@
     <textarea class="form-control" id="post-content" rows="3" v-model="post.content"></textarea>
   </div>
   <div class="form-group">
-    <button type="submit" class="btn btn-info">Add</button>
+    <button type="submit" class="btn btn-info">Save</button>
   </div>
 </form>
 
@@ -23,7 +23,7 @@
                         <h3> {{post.title}} </h3>
                         <p>{{post.content}}</p>
                         <div>
-                            <span class="float-left">edit</span>
+                            <span class="float-left" @click="edit(post)">edit</span>
                             <span class="float-right" @click="del(post.id)">delete</span>
                         </div>
                     </li>
@@ -47,7 +47,9 @@
                     id :'',
                     title:'',
                     content:''
-                }
+                },
+                 editAction: false,
+                 post_id:"",
             }
         },
         methods: {
@@ -55,14 +57,15 @@
                 window.axios.post('api/post', this.post) 
           .then(() => {
             console.log("added");
-            
+              this.post.title="";
+              this.post.content="";
           //  this.posts.push(this.post);
-
            this.read();
 
           })
 
               },
+
               read() {
                 window.axios.get('api/posts')
                 .then(({ data }) => {
@@ -70,12 +73,35 @@
                     this.posts = data.data;
                 });
               },
-              update(id) {
-                window.axios.put(`api/post/${id}`, 
-                    { }
+
+              saveMethod() {
+                if(this.editAction === false) {
+                  this.create();
+                }
+                else {
+                  this.update();
+                }
+              },
+              edit(post) {
+                this.post.title = "";
+                this.post.content = "";
+
+                this.editAction = true;
+                this.post.title = post.title;
+                this.post.content = post.content;
+                console.log("id post"+post.id);
+                this.post_id = post.id;
+
+              },
+
+              update() {
+                  console.log("updated", this.post_id);
+                
+                window.axios.put('api/post/'+this.post_id, this.post 
                 ).then(() => {
-                  // Once AJAX resolves we can update the Crud with the new color
-                  //this.posts.find(post => post.id === id).color = color;
+                  console.log("updated");
+                  this.read();
+                  this.editAction = false;
                 });
 
               },

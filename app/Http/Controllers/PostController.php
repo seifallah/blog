@@ -65,7 +65,8 @@ class PostController extends Controller
        $post                = Post::findOrFail($id);
        $post->title         =   $request->title;
        $post->content       =   $request->content;
-       $post->user_id       =   $request->user_id;
+       $post->user_id       =   2;
+       //$post->user_id       =   $request->user_id;
        if($post->save())
         {
             return new PostResource($post);
