@@ -7,11 +7,11 @@
           <form class="col-3" @submit.prevent="saveMethod()" style="position:fixed;">
             <div class="form-group">
               <label for="title">Title</label>
-              <input type="text" class="form-control" id="title"  placeholder="" v-model="post.title">
+              <input type="text" class="form-control" required="required" placeholder="" v-model="post.title">
             </div>
             <div class="form-group">
               <label for="post-content">Content</label>
-              <textarea class="form-control" rows="10" v-model="post.content"></textarea>
+              <textarea class="form-control" required="required" rows="10" v-model="post.content"></textarea>
             </div>
             <div class="form-group text-right">
               <button type="submit" class="btn btn-info">Save</button>

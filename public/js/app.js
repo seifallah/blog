@@ -47476,7 +47476,7 @@ var render = function() {
                 }
               ],
               staticClass: "form-control",
-              attrs: { type: "text", id: "title", placeholder: "" },
+              attrs: { type: "text", required: "required", placeholder: "" },
               domProps: { value: _vm.post.title },
               on: {
                 input: function($event) {
@@ -47504,7 +47504,7 @@ var render = function() {
                 }
               ],
               staticClass: "form-control",
-              attrs: { rows: "10" },
+              attrs: { required: "required", rows: "10" },
               domProps: { value: _vm.post.content },
               on: {
                 input: function($event) {

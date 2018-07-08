@@ -28,6 +28,10 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
+        $this->validate($request, [
+                'title' => 'required|unique:posts',
+                'content' => 'required',
+            ]);
        $post                = new Post;
        $post->title         =   $request->title;
        $post->content       =   $request->content;
@@ -60,6 +64,10 @@ class PostController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $this->validate($request, [
+                'title' => 'required|unique:posts',
+                'content' => 'required',
+            ]);
        $post                = Post::findOrFail($id);
        $post->title         =   $request->title;
        $post->content       =   $request->content;
